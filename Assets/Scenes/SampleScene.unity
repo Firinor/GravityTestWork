@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 219038967}
   - component: {fileID: 219038970}
   - component: {fileID: 219038969}
-  - component: {fileID: 219038968}
+  - component: {fileID: 219038971}
   m_Layer: 5
   m_Name: LeftButton
   m_TagString: Untagged
@@ -157,50 +157,6 @@ RectTransform:
   m_AnchoredPosition: {x: -796, y: -377}
   m_SizeDelta: {x: 222, y: 222}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &219038968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 219038966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 219038969}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &219038969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +195,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219038966}
   m_CullTransparentMesh: 1
+--- !u!114 &219038971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219038966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7e3549bd8bdca43be08542f9160d60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LongPressButton
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  pressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &327463695
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,13 +301,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327463695}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.25789168, w: 0.9661738}
-  m_LocalPosition: {x: -3.25, y: -0.36, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.79, y: -0.45, z: 0}
   m_LocalScale: {x: 5, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.89}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &327463698
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -402,7 +378,7 @@ GameObject:
   - component: {fileID: 394745876}
   - component: {fileID: 394745879}
   - component: {fileID: 394745878}
-  - component: {fileID: 394745877}
+  - component: {fileID: 394745880}
   m_Layer: 5
   m_Name: RightButton
   m_TagString: Untagged
@@ -429,50 +405,6 @@ RectTransform:
   m_AnchoredPosition: {x: -468, y: -378}
   m_SizeDelta: {x: 222, y: 222}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &394745877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 394745875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 394745878}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &394745878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,6 +443,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394745875}
   m_CullTransparentMesh: 1
+--- !u!114 &394745880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394745875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7e3549bd8bdca43be08542f9160d60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LongPressButton
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  pressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!1 &410305666
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,7 +850,7 @@ Transform:
   m_GameObject: {fileID: 763735182}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 3.28, z: 0}
+  m_LocalPosition: {x: -7, y: 2.56, z: 0}
   m_LocalScale: {x: 2.2707, y: 2.2707, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -996,8 +948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc81519302a7fb34189f097f4145c1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravitationManager
-  minForce: 2
-  maxForce: 6
+  minForce: 6
+  maxForce: 10
 --- !u!4 &800187594
 Transform:
   m_ObjectHideFlags: 0
@@ -1219,7 +1171,6 @@ GameObject:
   - component: {fileID: 1432779021}
   - component: {fileID: 1432779023}
   - component: {fileID: 1432779022}
-  - component: {fileID: 1432779024}
   - component: {fileID: 1432779020}
   m_Layer: 3
   m_Name: Character
@@ -1296,7 +1247,7 @@ Transform:
   m_GameObject: {fileID: 1432779019}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47, y: -3.66, z: 0}
+  m_LocalPosition: {x: -1.55, y: 2.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1337,7 +1288,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.66800004
+  m_Radius: 0.42
 --- !u!114 &1432779023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,8 +1302,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterController
   Collider2D: {fileID: 1432779022}
-  Rigidbody2D: {fileID: 1432779024}
-  jumpStrength: 3
+  ColliderOffset: 0.035
+  jumpStrength: 8
   jumpCurve:
     serializedVersion: 2
     m_Curve:
@@ -1368,53 +1319,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -3.2017844
-      outSlope: -3.2017844
+      inSlope: -0.026482979
+      outSlope: -0.026482979
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.016359925
+      inWeight: 0.08997953
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   walkSpeed: 5
-  dampingSpeed: 5
+  dampingSpeed: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 55
-  buttonToLeft: {fileID: 219038968}
-  buttonToRight: {fileID: 394745877}
+  buttonToLeft: {fileID: 219038971}
+  buttonToRight: {fileID: 394745880}
   buttonToJump: {fileID: 1645013643}
   _spriteRenderer: {fileID: 1432779020}
-  Gravity: {x: 0, y: 0}
-  GravityObject: {fileID: 0}
---- !u!50 &1432779024
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432779019}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  Gravity: {x: 7.620778, y: -4.8317046}
+  GravityObject: {fileID: 2048122655}
 --- !u!1 &1645013641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,7 +1390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -1622,7 +1546,7 @@ Transform:
   m_GameObject: {fileID: 2048122651}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.19654503, w: 0.9804948}
-  m_LocalPosition: {x: 4.48, y: -0.17, z: 0}
+  m_LocalPosition: {x: 4.88, y: -0.24, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

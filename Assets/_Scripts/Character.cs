@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -7,7 +6,7 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     [SerializeField] private CircleCollider2D Collider2D;
-    [SerializeField] private Rigidbody2D Rigidbody2D;
+    [SerializeField] private float ColliderOffset = 0.02f;
     [SerializeField] private float jumpStrength;
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float walkSpeed;
@@ -15,8 +14,8 @@ public class Character : MonoBehaviour
     
     [SerializeField] private LayerMask layerMask;
     
-    [SerializeField] private Button buttonToLeft;
-    [SerializeField] private Button buttonToRight;
+    [SerializeField] private LongPressButton buttonToLeft;
+    [SerializeField] private LongPressButton buttonToRight;
     [SerializeField] private Button buttonToJump;
 
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -44,23 +43,18 @@ public class Character : MonoBehaviour
         action.FindAction("Move").canceled += InputMove;
         action.FindAction("Jump").performed += InputJump;
         
-        buttonToLeft.onClick.AddListener(() => playerInput.x = -1);
-        buttonToRight.onClick.AddListener(() => playerInput.x = 1);
+        buttonToLeft.OnButtonPressed.AddListener(() => playerInput.x = -1);
+        buttonToLeft.OnButtonReleased.AddListener(() => playerInput.x = 0);
+        
+        buttonToRight.OnButtonPressed.AddListener(() => playerInput.x = 1);
+        buttonToRight.OnButtonReleased.AddListener(() => playerInput.x = 0);
+        
         buttonToJump.onClick.AddListener(() => playerInput.y = 1);
     }
 
     private void InputJump(InputAction.CallbackContext obj)
     {
         playerInput.y = 1;
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        isCanJump = true;
-        Rigidbody2D.linearVelocity = Vector2.zero;
-        playerVelocity = Vector2.zero;
-        playerJumpVelocity = Vector2.zero;
-        jumpTimer = jumpTime;
     }
 
     private void InputMove(InputAction.CallbackContext obj)
@@ -78,6 +72,7 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
+        //Loock direction
         if (playerInput.x > 0 && _spriteRenderer.flipX)
         {
             _spriteRenderer.flipX = false;
@@ -87,9 +82,9 @@ public class Character : MonoBehaviour
             _spriteRenderer.flipX = true;
         }
         
-        //Debug.DrawLine(transform.position, transform.position - transform.up * raycastDistance);
+        //Ground check
         hit = Physics2D.CircleCast(transform.position,
-            Collider2D.radius + 0.02f,
+            Collider2D.radius + ColliderOffset,
             -transform.up,
             0,
             layerMask);
@@ -97,21 +92,26 @@ public class Character : MonoBehaviour
         {
             isGrounded = true;
             isCanJump = true;
-            targerPlayerAngler = Quaternion.FromToRotation(Vector3.up,hit.normal);
+            targerPlayerAngler = Quaternion.LookRotation(Vector3.forward,hit.normal);
         }
         else
         {
             isGrounded = false;
             if (GravityObject != null)
             {
-                Vector2 normal = transform.position - GravityObject.transform.position;
-                targerPlayerAngler = Quaternion.FromToRotation(Vector3.up,normal);
+                hit = Physics2D.Raycast(transform.position,
+                    GravityObject.transform.position - transform.position,
+                    Vector2.Distance(GravityObject.transform.position, transform.position),
+                    layerMask);
+                targerPlayerAngler = Quaternion.LookRotation(Vector3.forward,hit.normal);
             }
         }
         
+        //Input check
         if (playerInput.x != 0)
         {
-            playerVelocity = transform.right * playerInput.x * walkSpeed;
+            Vector2 right = new Vector2(hit.normal.y, -hit.normal.x);
+            playerVelocity = right * playerInput.x * walkSpeed;
         }
         
         if (isGrounded && isCanJump && playerInput.y > 0)
@@ -120,9 +120,9 @@ public class Character : MonoBehaviour
             jumpTimer = 0;
             playerJumpVelocity = hit.normal * jumpStrength;
         }
-        playerInput.y = 0;
         playerVelocity = Vector2.Lerp(playerVelocity, Vector2.zero, dampingSpeed * Time.deltaTime);
 
+        //Move rotation
         if (isGrounded)
         {
             transform.rotation = targerPlayerAngler;
@@ -131,30 +131,27 @@ public class Character : MonoBehaviour
         {
             float currentAngle = transform.eulerAngles.z;
             float targetAngleFloat = targerPlayerAngler.eulerAngles.z;
+
+            float delta = targetAngleFloat - currentAngle;
+            while (delta > 180) {delta -= 360; targetAngleFloat -= 360; }
+            while (delta <= -180) {delta += 360; targetAngleFloat += 360; }
             
             float newAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngleFloat, 
                 playerAngularSpeed * Time.deltaTime);
             
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
-            
-            /*transform.rotation = Quaternion.RotateTowards(
-                transform.rotation, 
-                targerPlayerAngler, 
-                playerAngularSpeed * Time.deltaTime);*/
         }
         
-        RigidbodiUpdate();
-    }
-
-    private void RigidbodiUpdate()
-    {
+        //Move position
         Vector3 nextPosition = (Vector3)playerVelocity * Time.deltaTime;
-
+        playerVelocity = Vector2.zero;
+        
         float jumpStrenght = jumpCurve.Evaluate(jumpTimer);
         if (jumpTimer < jumpTime)
         {
             nextPosition += (Vector3)playerJumpVelocity * jumpStrenght * Time.deltaTime;
             jumpTimer += Time.deltaTime;
+            isGrounded = false;
         }
 
         if (!isGrounded)
@@ -163,8 +160,39 @@ public class Character : MonoBehaviour
             nextPosition += (Vector3)Gravity * gravityStrenght * Time.deltaTime;
         }
 
-        Rigidbody2D.MovePosition(transform.position + nextPosition);
-        Rigidbody2D.linearVelocity = Vector2.zero;
+        transform.position += nextPosition;
+        
+        //Correction position
+        hit = Physics2D.CircleCast(transform.position,
+            Collider2D.radius + ColliderOffset,
+            -transform.up,
+            0,
+            layerMask);
+        
+        if (isGrounded)
+        {
+            if (hit.collider == null)
+            {
+                hit = Physics2D.Raycast(transform.position,
+                    GravityObject.transform.position - transform.position,
+                    Vector2.Distance(GravityObject.transform.position, transform.position),
+                    layerMask);
+                
+                transform.position = hit.point + hit.normal * Collider2D.radius;
+            }
+            else
+            {
+                transform.position = hit.point + hit.normal * Collider2D.radius;
+            }
+        }
+        else if (playerInput.y == 0 && hit.collider != null)
+        {
+            playerVelocity = Vector2.zero;
+            playerJumpVelocity = Vector2.zero;
+            jumpTimer = jumpTime;
+            transform.position = hit.point + hit.normal * Collider2D.radius;
+        }
+        playerInput.y = 0;
     }
 
     private void OnDestroy()
@@ -173,8 +201,10 @@ public class Character : MonoBehaviour
         action.FindAction("Move").canceled -= InputMove;
         action.FindAction("Jump").performed -= InputJump;
         
-        buttonToLeft.onClick.RemoveAllListeners();
-        buttonToRight.onClick.RemoveAllListeners();
+        buttonToLeft.OnButtonPressed.RemoveAllListeners();
+        buttonToLeft.OnButtonReleased.RemoveAllListeners();
+        buttonToRight.OnButtonPressed.RemoveAllListeners();
+        buttonToRight.OnButtonReleased.RemoveAllListeners();
         buttonToJump.onClick.RemoveAllListeners();
     }
 }
